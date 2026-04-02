@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ScalarConverter.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvenkata <jvenkata@student.42belgium.be    +#+  +:+       +#+        */
+/*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 12:31:26 by julian            #+#    #+#             */
-/*   Updated: 2026/03/21 19:18:58 by jvenkata         ###   ########.fr       */
+/*   Updated: 2026/03/28 17:42:11 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ class ScalarConverter
 		ScalarConverter &operator=(const ScalarConverter &copy);
 
 		static void convert(std::string str);
+		void printall(type t, long n);
 	
 
 		class NonDisplayableException : public std::exception
@@ -56,6 +57,11 @@ class ScalarConverter
 };
 
 enum type getType(std::string str);
+long converting(std::string str);
+char toChar(long n);
+int toInt(long n);
+double toDouble(long n);
+float toFloat(long n);
 bool hasNonDisplayableChar(std::string str);
 
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ScalarConverter.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvenkata <jvenkata@student.42belgium.be    +#+  +:+       +#+        */
+/*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/21 16:29:13 by jvenkata          #+#    #+#             */
-/*   Updated: 2026/03/21 19:23:48 by jvenkata         ###   ########.fr       */
+/*   Updated: 2026/03/28 17:53:51 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,33 +39,17 @@ ScalarConverter &ScalarConverter::operator=(const ScalarConverter &copy)
 	return (*this);
 }
 
-const char* ScalarConverter::NonDisplayableException::what() const throw()
-{
-	return("Error! You typed not displaylable character!\n");
-}
-
 
 void ScalarConverter::convert(std::string str)
 {
 
 	type t = getType(str);
-    try
-    {
-        char* end;
-        long result = std::strtol(str.c_str(), &end, 10);
-        if (*end != '\0') {
-            throw std::invalid_argument("Invalid integer");
-        }
-        if (result > INT_MAX || result < INT_MIN) {
-            throw std::out_of_range("Out of int range");
-        }
+    long n = converting(str);
+	this->printall(t, n);
 
-	}
-        
- 
-	else
-	std::cout << "char: " << _char << std::endl;
-	std::cout << "int: " << _int << std::endl;
-	std::cout << std::fixed << std::setprecision(1) << "float: " << _float << "f" << std::endl;
-	std::cout << std::fixed << std::setprecision(1) << "double: " << _double << std::endl;
+}
+
+const char *ScalarConverter::NonDisplayableException::what() const throw()
+{
+	return "Wrong format, your number has non displayable caracter";
 }

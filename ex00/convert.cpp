@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   convert.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvenkata <jvenkata@student.42belgium.be    +#+  +:+       +#+        */
+/*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/21 17:19:43 by jvenkata          #+#    #+#             */
-/*   Updated: 2026/03/21 19:31:28 by jvenkata         ###   ########.fr       */
+/*   Updated: 2026/03/29 18:57:14 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,15 @@ bool hasNonDisplayableChar(std::string str)
 	return (false);
 }
 
-std::string toChar(long n)
-{
+char toChar(long n)
+{	
+	if (n < 32 || n >= 127)
+		throw ScalarConverter::NonDisplayableException();
     char c = static_cast<char>(n);
-    
-    if (c < 32 || c > 126)
-        return "char : Non displayable"
+    return c;
 }
 
-void printall(type t, long n)
+void ScalarConverter::printall(type t, long n)
 {
     if (t == POSITIVE_INF)
 	{
@@ -61,20 +61,30 @@ void printall(type t, long n)
 	}
     if (t == CHAR)
     {
-        std::cout << toChar(n) << std::endl;
+		try
+		{
+			_char = toChar(n);
+			std::cout << _char << std::endl;
+		}
+		catch(std::exception& e)
+		{}
         _int = static_cast<int>(_char);
         _double = static_cast<double>(_char);
         _float = static_cast<float>(_char);
     }
     else if (t == INT)
     {
-        _char = toChar(result);
-        _int = static_cast<int>(result);
-        _double = static_cast<double>(result);
-        _float = static_cast<float>(result);
+		try{std::cout << toChar(n) << std::endl;}
+		catch(std::exception& e){}
+        _char = static_cast<char>(n);
+        _int = toInt(n);
+        _double = static_cast<double>(n);
+        _float = static_cast<float>(n);
     }
     else if (t == FLOAT)
     {
+		try{std::cout << toChar(n) << std::endl;}
+		catch(std::exception& e){}
         _float = std::stof(str);
         _char = static_cast<char>(_float);
         _int = static_cast<int>(_float);
@@ -82,11 +92,29 @@ void printall(type t, long n)
     }
     else if (t == DOUBLE)
     {
+		try{std::cout << toChar(n) << std::endl;}
+		catch(std::exception& e){}
         _double = std::stod(str);
         _char = static_cast<char>(_double);
         _int = static_cast<int>(_double);
         _float = static_cast<float>(_double);
     }
+}
+long converting(std::string str)
+{
+	char* end;
+	long result = std::strtol(str.c_str(), &end, 10);
+	if (*end != '\0') 
+	{
+		throw std::invalid_argument("Invalid integer");
+	}
+	if (result > INT_MAX || result < INT_MIN) 
+	{
+		throw std::out_of_range("Out of int range");
+	}
+	if (hasNonDisplayableChar(str))
+		throw ScalarConverter::NonDisplayableException();
+	return result;
 }
 
 enum type getType(std::string str)
