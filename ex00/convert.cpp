@@ -6,46 +6,44 @@
 /*   By: jvenkata <jvenkata@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/21 17:19:43 by jvenkata          #+#    #+#             */
-/*   Updated: 2026/04/03 15:53:09 by jvenkata         ###   ########.fr       */
+/*   Updated: 2026/04/03 20:40:51 by jvenkata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ScalarConverter.hpp"
 
-bool nonDisplayableChar(std::string str)
+long toLong(std::string str)
 {
-	int i = 0;
+	char* end;
+	long result = strtol(str.c_str(), &end, 10);
 
-	while (str[i] != '\0')
-	{
-		if (str[i] < 32 || str[i] > 126)
-			return (true);
-		i++;
-	}
-	return (false);
+	if (end == str.c_str())
+		throw std::invalid_argument("Invalid input");
+	return result;
 }
 
-void toChar(long n)
+void toChar(char n)
 {	
-	if (n < 32 || n >= 127)
+	if (n < 0 || n > 127)
+		std::cout << "char: impossible" << std::endl;
+	else if (n < 32 || n >= 127)
 		std::cout << "char: Non displayable" << std::endl;
-    char c = static_cast<char>(n);
-    {
-		std::cout << "char: " << c << std::endl;
-		std::cout << "int : " << static_cast<int>(c) << std::endl;
-        std::cout << "float : " << static_cast<float>(c) << ".0f" << std::endl;
-        std::cout << "double : " << static_cast<double>(c) << std::endl;
-    }
+	else
+		std::cout << "char: " << n << std::endl;
+    std::cout << "int : " << static_cast<int>(n) << std::endl;
+    std::cout << "float : " << static_cast<float>(n) << ".0f" << std::endl;
+    std::cout << "double : " << static_cast<double>(n) << ".0" << std::endl;
+
 }
 
 void toInt(long n)
 {
 	int i = static_cast<int>(n);
 
-	if (n < 32 || n >= 127)
-		std::cout << "char: Non displayable" << std::endl;
-	else if (n < 0 || n > 127)
+	if (n < 0 || n > 127)
 		std::cout << "char: impossible" << std::endl;
+	else if (n < 32 || n >= 127)
+		std::cout << "char: Non displayable" << std::endl;
 	else
 		std::cout << "char: " << static_cast<char>(i) << std::endl;
 	if (n < INT_MIN || n > INT_MAX)
@@ -56,22 +54,37 @@ void toInt(long n)
 	std::cout << "double: " << static_cast<double>(i) << ".0" << std::endl;
 }
 
-void toFloat(long n)
+void toFloat(double n)
 {
 	float f = static_cast<float>(n);
-	std::cout << "char: impossible" << std::endl;
-	std::cout << "int: impossible" << std::endl;
+	if (n < 0 || n > 127)
+		std::cout << "char: impossible" << std::endl;
+	else if (n < 32 || n >= 127)
+		std::cout << "char: Non displayable" << std::endl;
+	else
+		std::cout << "char: " << static_cast<char>(f) << std::endl;
+	if (n < INT_MIN || n > INT_MAX)
+		std::cout << "int: impossible" << std::endl;
+	else
+		std::cout << "int: " << static_cast<int>(f) << std::endl;
 	std::cout << "float: " << f << "f" << std::endl;
 	std::cout << "double: " << static_cast<double>(f) << std::endl;
 }
 
-void toDouble(long n)
+void toDouble(double n)
 {
-	double d = static_cast<double>(n);
-	std::cout << "char: impossible" << std::endl;
-	std::cout << "int: impossible" << std::endl;
-	std::cout << "float: " << static_cast<float>(d) << "f" << std::endl;
-	std::cout << "double: " << d << std::endl;
+	if (n < 0 || n > 127)
+		std::cout << "char: impossible" << std::endl;
+	else if (n < 32 || n >= 127)
+		std::cout << "char: Non displayable" << std::endl;
+	else
+		std::cout << "char: " << static_cast<char>(n) << std::endl;
+	if (n < INT_MIN || n > INT_MAX)
+		std::cout << "int: impossible" << std::endl;
+	else
+		std::cout << "int: " << static_cast<int>(n) << std::endl;
+	std::cout << "float: " << static_cast<float>(n) << "f" << std::endl;
+	std::cout << "double: " << n << std::endl;
 }
 
 void printspec(type t)
@@ -100,12 +113,6 @@ void printspec(type t)
 		std::cout << "double: nan" << std::endl;
 		return ;
 	}
-}
-long converting(std::string str)
-{
-	char* end;
-	long result = strtol(str.c_str(), &end, 10);
-	return result;
 }
 
 enum type getType(std::string str)
@@ -138,7 +145,7 @@ enum type getType(std::string str)
 		return (DOUBLE);
 	else if (afterDot && str[str.size()-1] == 'f')
 		return (FLOAT);
-	else if (len == 1)
+	else if (len == 1 && (str[0] < '0' || str[0] > '9'))
 		return (CHAR);
 	else
 		return (INT);

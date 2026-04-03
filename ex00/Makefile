@@ -6,13 +6,13 @@
 #    By: jvenkata <jvenkata@student.42belgium.be    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/21 16:52:18 by jvenkata          #+#    #+#              #
-#    Updated: 2026/03/22 10:45:11 by jvenkata         ###   ########.fr        #
+#    Updated: 2026/04/03 16:21:33 by jvenkata         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME =convert
 C = c++
-CFLAGS = -Iinclude -Wall -Wextra -Werror -std=c++98
+CFLAGS = -Iinclude -Wall -Wextra -Werror -std=c++98 -g
 SRC = 	main.cpp ScalarConverter.cpp convert.cpp
 OBJ = $(SRC:.cpp=.o)
 

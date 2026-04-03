@@ -6,7 +6,7 @@
 /*   By: jvenkata <jvenkata@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 12:31:26 by julian            #+#    #+#             */
-/*   Updated: 2026/04/03 15:44:14 by jvenkata         ###   ########.fr       */
+/*   Updated: 2026/04/03 20:37:58 by jvenkata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,22 +42,15 @@ class ScalarConverter
 
 		static void convert(std::string str);
 		
-		
-		class NonDisplayableException : public std::exception
-		{
-			public:
-			virtual const char *what() const throw();
-		};
 };
 	
 void printspec(type t);
 enum type getType(std::string str);
 long converting(std::string str);
-void toChar(long n);
+void toChar(char c);
 void toInt(long n);
-void toDouble(long n);
-void toFloat(long n);
-bool nonDisplayableChar(std::string str);
-
+void toDouble(double n);
+void toFloat(double n);
+long toLong(std::string str);
 
 #endif

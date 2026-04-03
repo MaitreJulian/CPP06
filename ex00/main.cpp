@@ -6,7 +6,7 @@
 /*   By: jvenkata <jvenkata@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/21 17:11:23 by jvenkata          #+#    #+#             */
-/*   Updated: 2026/04/02 16:22:39 by jvenkata         ###   ########.fr       */
+/*   Updated: 2026/04/03 20:16:24 by jvenkata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 #include <string>     // std::string, std::stoi
 #include "ScalarConverter.hpp"
 
-int main ()
+int main (int argc, char **argv)
 {
-  std::string number;
+  if (argc != 2) {
+    std::cerr << "Usage: " << argv[0] << " <number>" << std::endl;
+    return 1;
+  }
 
-  std::cout << "give a number : char, int, double or float" << std::endl;
-  std::cin >> number;
+  std::string number = argv[1];
   try {
     ScalarConverter::convert(number);
   }
