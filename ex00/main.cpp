@@ -6,7 +6,7 @@
 /*   By: jvenkata <jvenkata@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/21 17:11:23 by jvenkata          #+#    #+#             */
-/*   Updated: 2026/03/21 17:12:40 by jvenkata         ###   ########.fr       */
+/*   Updated: 2026/04/02 16:22:39 by jvenkata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,10 @@ int main ()
 
   std::cout << "give a number : char, int, double or float" << std::endl;
   std::cin >> number;
-  ScalarConverter::convert(number);
+  try {
+    ScalarConverter::convert(number);
+  }
+  catch (std::exception &e) {
+    std::cerr << "Error: " << e.what() << std::endl;
+  }
 }

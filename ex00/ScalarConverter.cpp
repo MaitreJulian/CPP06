@@ -3,19 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ScalarConverter.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvenkata <jvenkata@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/21 16:29:13 by jvenkata          #+#    #+#             */
-/*   Updated: 2026/03/28 17:53:51 by julian           ###   ########.fr       */
+/*   Updated: 2026/04/03 14:57:09 by jvenkata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ScalarConverter.hpp"
-
-int ScalarConverter::_int = 0;
-char ScalarConverter::_char = '\0';
-float ScalarConverter::_float = 0.0f;
-double ScalarConverter::_double = 0.0;
 
 ScalarConverter::ScalarConverter()
 {
@@ -43,9 +38,24 @@ ScalarConverter &ScalarConverter::operator=(const ScalarConverter &copy)
 void ScalarConverter::convert(std::string str)
 {
 
-	type t = getType(str);
-    long n = converting(str);
-	this->printall(t, n);
+    try
+    {
+     	type t = getType(str);
+        long n = converting(str);
+        if (t == CHAR)
+            toChar(n);
+        else if (t == INT)
+            toInt(n);
+        else if (t == FLOAT)
+            toFloat(n);
+        else if (t == DOUBLE)
+            toDouble(n);
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+    
 
 }
 

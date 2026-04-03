@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   convert.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvenkata <jvenkata@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/21 17:19:43 by jvenkata          #+#    #+#             */
-/*   Updated: 2026/03/29 18:57:14 by julian           ###   ########.fr       */
+/*   Updated: 2026/04/03 15:53:09 by jvenkata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ScalarConverter.hpp"
 
-bool hasNonDisplayableChar(std::string str)
+bool nonDisplayableChar(std::string str)
 {
 	int i = 0;
 
@@ -25,15 +25,56 @@ bool hasNonDisplayableChar(std::string str)
 	return (false);
 }
 
-char toChar(long n)
+void toChar(long n)
 {	
 	if (n < 32 || n >= 127)
-		throw ScalarConverter::NonDisplayableException();
+		std::cout << "char: Non displayable" << std::endl;
     char c = static_cast<char>(n);
-    return c;
+    {
+		std::cout << "char: " << c << std::endl;
+		std::cout << "int : " << static_cast<int>(c) << std::endl;
+        std::cout << "float : " << static_cast<float>(c) << ".0f" << std::endl;
+        std::cout << "double : " << static_cast<double>(c) << std::endl;
+    }
 }
 
-void ScalarConverter::printall(type t, long n)
+void toInt(long n)
+{
+	int i = static_cast<int>(n);
+
+	if (n < 32 || n >= 127)
+		std::cout << "char: Non displayable" << std::endl;
+	else if (n < 0 || n > 127)
+		std::cout << "char: impossible" << std::endl;
+	else
+		std::cout << "char: " << static_cast<char>(i) << std::endl;
+	if (n < INT_MIN || n > INT_MAX)
+		std::cout << "int: impossible" << std::endl;
+	else
+		std::cout << "int: " << i << std::endl;
+	std::cout << "float: " << static_cast<float>(i) << ".0f" << std::endl;
+	std::cout << "double: " << static_cast<double>(i) << ".0" << std::endl;
+}
+
+void toFloat(long n)
+{
+	float f = static_cast<float>(n);
+	std::cout << "char: impossible" << std::endl;
+	std::cout << "int: impossible" << std::endl;
+	std::cout << "float: " << f << "f" << std::endl;
+	std::cout << "double: " << static_cast<double>(f) << std::endl;
+}
+
+void toDouble(long n)
+{
+	double d = static_cast<double>(n);
+	std::cout << "char: impossible" << std::endl;
+	std::cout << "int: impossible" << std::endl;
+	std::cout << "float: " << static_cast<float>(d) << "f" << std::endl;
+	std::cout << "double: " << d << std::endl;
+}
+
+void printspec(type t)
 {
     if (t == POSITIVE_INF)
 	{
@@ -59,61 +100,11 @@ void ScalarConverter::printall(type t, long n)
 		std::cout << "double: nan" << std::endl;
 		return ;
 	}
-    if (t == CHAR)
-    {
-		try
-		{
-			_char = toChar(n);
-			std::cout << _char << std::endl;
-		}
-		catch(std::exception& e)
-		{}
-        _int = static_cast<int>(_char);
-        _double = static_cast<double>(_char);
-        _float = static_cast<float>(_char);
-    }
-    else if (t == INT)
-    {
-		try{std::cout << toChar(n) << std::endl;}
-		catch(std::exception& e){}
-        _char = static_cast<char>(n);
-        _int = toInt(n);
-        _double = static_cast<double>(n);
-        _float = static_cast<float>(n);
-    }
-    else if (t == FLOAT)
-    {
-		try{std::cout << toChar(n) << std::endl;}
-		catch(std::exception& e){}
-        _float = std::stof(str);
-        _char = static_cast<char>(_float);
-        _int = static_cast<int>(_float);
-        _double = static_cast<double>(_float);
-    }
-    else if (t == DOUBLE)
-    {
-		try{std::cout << toChar(n) << std::endl;}
-		catch(std::exception& e){}
-        _double = std::stod(str);
-        _char = static_cast<char>(_double);
-        _int = static_cast<int>(_double);
-        _float = static_cast<float>(_double);
-    }
 }
 long converting(std::string str)
 {
 	char* end;
-	long result = std::strtol(str.c_str(), &end, 10);
-	if (*end != '\0') 
-	{
-		throw std::invalid_argument("Invalid integer");
-	}
-	if (result > INT_MAX || result < INT_MIN) 
-	{
-		throw std::out_of_range("Out of int range");
-	}
-	if (hasNonDisplayableChar(str))
-		throw ScalarConverter::NonDisplayableException();
+	long result = strtol(str.c_str(), &end, 10);
 	return result;
 }
 
@@ -122,7 +113,7 @@ enum type getType(std::string str)
 	int i = 0;
 	int dot = 0;
 	int afterDot = 0;
-	int hasChar = 0;
+	int len = str.length();
 
 	if (str.compare("+inff") == 0 || str.compare("+inf") == 0)
 		return (POSITIVE_INF);
@@ -140,16 +131,14 @@ enum type getType(std::string str)
 		if (str[i] >= '0' && str[i] <= '9')
 			;
 		else if (str[i] == '.')
-			dot = 1;
-		else 
-			hasChar = 1;
+			dot = 1;			
 		i++;
 	}
-	if (afterDot && str.back() != 'f')
+	if (afterDot && str[str.size()-1] != 'f')
 		return (DOUBLE);
-	else if (afterDot && str.back() == 'f')
+	else if (afterDot && str[str.size()-1] == 'f')
 		return (FLOAT);
-	else if (hasChar)
+	else if (len == 1)
 		return (CHAR);
 	else
 		return (INT);
