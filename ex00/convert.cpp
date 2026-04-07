@@ -6,7 +6,7 @@
 /*   By: jvenkata <jvenkata@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/21 17:19:43 by jvenkata          #+#    #+#             */
-/*   Updated: 2026/04/03 20:40:51 by jvenkata         ###   ########.fr       */
+/*   Updated: 2026/04/07 11:27:07 by jvenkata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ void toInt(long n)
 		std::cout << "int: impossible" << std::endl;
 	else
 		std::cout << "int: " << i << std::endl;
-	std::cout << "float: " << static_cast<float>(i) << ".0f" << std::endl;
-	std::cout << "double: " << static_cast<double>(i) << ".0" << std::endl;
+	std::cout << "float: " << static_cast<float>(n) << ".0f" << std::endl;
+	std::cout << "double: " << static_cast<double>(n) << ".0" << std::endl;
 }
 
 void toFloat(double n)

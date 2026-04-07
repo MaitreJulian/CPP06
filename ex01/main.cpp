@@ -9,6 +9,7 @@ int main(void)
 	data->sername = "Meier";
 
 	uintptr_t raw = Serializer::serialize(data);
+	std::cout << "Raw: " << raw << std::endl;
 	Data *serialized = Serializer::deserialize(raw);
 
 	std::cout << serialized->name << std::endl;

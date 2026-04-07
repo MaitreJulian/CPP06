@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jvenkata <jvenkata@student.42belgium.be    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/07 11:34:44 by jvenkata          #+#    #+#             */
+/*   Updated: 2026/04/07 11:49:59 by jvenkata         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Base.hpp"
 #include "A.hpp"
 #include "B.hpp"
@@ -35,21 +47,21 @@ void identify(Base &p)
 		(void)a;
 		std::cout << "A" << std::endl;
 	}
-	catch (std::exception &e) {}
+	catch (std::exception &e) {std::cout << "Not A" << std::endl;}
 	try
 	{
 		B &b = dynamic_cast<B&>(p);
 		(void)b;
 		std::cout << "B" << std::endl;
 	}
-	catch (std::exception &e) {}
+	catch (std::exception &e) {std::cout << "Not B" << std::endl;}
 	try
 	{
 		C &c = dynamic_cast<C&>(p);
 		(void)c;
 		std::cout << "C" << std::endl;
 	}
-	catch (std::exception &e) {}
+	catch (std::exception &e) {std::cout << "Not C" << std::endl;}
 }
 
 int main(void)
